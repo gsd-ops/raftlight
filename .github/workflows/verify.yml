@@ -1,0 +1,24 @@
+name: Verify RaftLight
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  verify:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest -q
+      - run: python test_network_hell.py --faults 10000 --seed 20261022 --trials 20
+      - run: python benchmarks/run_benchmarks.py --trials 100 --writes 5 --election-trials 200 --recovery-trials 20
+      - run: python tools/run_sensitivity.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidence-${{ matrix.os }}
+          path: |
+            results/
+            report/figures/

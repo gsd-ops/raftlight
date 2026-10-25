@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "raftlight"
+version = "1.0.0"
+description = "Inspectable Raft consensus with deterministic fault testing"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "hypothesis>=6.100,<7", "numpy>=1.26,<3", "matplotlib>=3.8,<4"]
+
+[tool.setuptools.packages.find]
+include = ["raftlight*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+

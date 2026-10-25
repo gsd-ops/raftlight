@@ -1,0 +1,513 @@
+{
+  "methodology": {
+    "time_basis": "simulated seconds; figure labels use simulated milliseconds",
+    "created_utc": "2026-10-23T20:10:11.929216+00:00",
+    "real_execution_seconds": 24.294947999995202,
+    "trials_per_condition": {
+      "latency": 100,
+      "elections": 200,
+      "recovery": 20
+    },
+    "seeds": {
+      "latency": [
+        10000,
+        10099
+      ],
+      "elections": [
+        20000,
+        20199
+      ],
+      "recovery": [
+        30000,
+        30019
+      ]
+    },
+    "statistics": {
+      "quantiles": "Unsmoothed NumPy linear sample percentiles among committed operations.",
+      "bootstrap": "2000 independent-seed block resamples; all operations and failures within each seed retained. Pointwise 95% percentile intervals, conditional on nonempty successful samples for latency.",
+      "bootstrap_seeds": "40000 + packet-loss percentage",
+      "p99": "Descriptive sample estimate; offered attempt count is not successful sample count. The bootstrap cannot establish an unobserved tail or remove timeout censoring.",
+      "figure_interval": "Shading is the pointwise p95 latency 95% bootstrap interval; other interval values are preserved in JSON."
+    },
+    "network_delay_seconds": [
+      0.001,
+      0.01
+    ],
+    "timer_resolution_seconds": 0.005,
+    "election_timeout_seconds": [
+      0.15,
+      0.3
+    ],
+    "heartbeat_interval_seconds": 0.05,
+    "latency": {
+      "cluster_size": 3,
+      "loss_percent": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80
+      ],
+      "workload": "5 sequential offered SET write attempts per seed per condition",
+      "startup_timeout_seconds": 5,
+      "between_attempt_election_wait_seconds": 1,
+      "commit_timeout_seconds": 3,
+      "measurement": "Proposal to first observed commitment of the exact entry; success can be observed after leadership change. No client retries.",
+      "failures": "Timeout and no-leader outcomes are excluded from successful latency percentiles but counted in the success denominator.",
+      "loss_model": "Each sent request or response independently dropped; applies during elections and workload."
+    },
+    "elections": {
+      "cluster_sizes": [
+        3,
+        5
+      ],
+      "loss": 0,
+      "measurement": "Startup/failure to every live node recognizing the highest-term leader; 3-second timeout.",
+      "rpc_count": "Sent protocol messages including responses and messages addressed to crashed nodes.",
+      "split_vote": "Term with at least two candidacies and no elected leader observed by convergence.",
+      "workload": "Election and initial no-op only; then crash the leader."
+    },
+    "recovery": {
+      "cluster_size": 5,
+      "loss": 0,
+      "measurement": "Crash/minority partition to new majority write committed; healing/restart to identical full logs, commit indexes and state machines.",
+      "timeouts": "Up to 3 seconds for leader discovery plus 3 seconds for commit; 3 seconds for full convergence.",
+      "partition": "Old leader plus one follower isolated from remaining three; minority write remains uncommitted.",
+      "restart_backlog": "Eight SET commands while one follower is crashed."
+    },
+    "limitations": [
+      "Discrete-event measurements are not physical-network or Python throughput benchmarks.",
+      "Finite independent seeds; p99 estimates with small samples are descriptive, not precise tail guarantees.",
+      "Paired seed numbers across conditions do not imply identical random draws after fault paths diverge.",
+      "Successful latency is conditional on success and is subject to timeout censoring."
+    ]
+  },
+  "latency": [
+    {
+      "loss_percent": 0,
+      "attempts": 500,
+      "success_percent": 100.0,
+      "outcomes": {
+        "committed": 500
+      },
+      "p50_ms": 8.030588528778317,
+      "p95_ms": 12.030616964109601,
+      "p99_ms": 13.88063564900043,
+      "samples": 500,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          7.6782075991793235,
+          8.282795511618923
+        ],
+        "p95": [
+          11.708904728368648,
+          12.570662543299516
+        ],
+        "p99": [
+          13.010011987751332,
+          14.80209169353085
+        ]
+      },
+      "success_95ci_percent": [
+        100.0,
+        100.0
+      ],
+      "bootstrap_seed": 40000,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 10,
+      "attempts": 500,
+      "success_percent": 100.0,
+      "outcomes": {
+        "committed": 500
+      },
+      "p50_ms": 8.775185127994064,
+      "p95_ms": 14.599113529575511,
+      "p99_ms": 18.422010252029516,
+      "samples": 500,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          8.345767495947316,
+          9.241268221469534
+        ],
+        "p95": [
+          13.658105859787012,
+          15.160645183455303
+        ],
+        "p99": [
+          16.097150843528702,
+          19.714029277982636
+        ]
+      },
+      "success_95ci_percent": [
+        100.0,
+        100.0
+      ],
+      "bootstrap_seed": 40010,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 20,
+      "attempts": 500,
+      "success_percent": 100.0,
+      "outcomes": {
+        "committed": 500
+      },
+      "p50_ms": 9.607722901121885,
+      "p95_ms": 18.06901064393003,
+      "p99_ms": 26.01759559772458,
+      "samples": 500,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          9.144106848797932,
+          10.170623276598665
+        ],
+        "p95": [
+          15.815454583598491,
+          19.506768532644166
+        ],
+        "p99": [
+          21.83298553723754,
+          63.22030673344187
+        ]
+      },
+      "success_95ci_percent": [
+        100.0,
+        100.0
+      ],
+      "bootstrap_seed": 40020,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 30,
+      "attempts": 500,
+      "success_percent": 100.0,
+      "outcomes": {
+        "committed": 500
+      },
+      "p50_ms": 11.253970342425854,
+      "p95_ms": 64.39839318109533,
+      "p99_ms": 119.63810611165431,
+      "samples": 500,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          10.623355441899475,
+          11.785138357884879
+        ],
+        "p95": [
+          59.37796082151195,
+          66.78166942257539
+        ],
+        "p99": [
+          77.51848279707363,
+          167.83966135218017
+        ]
+      },
+      "success_95ci_percent": [
+        100.0,
+        100.0
+      ],
+      "bootstrap_seed": 40030,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 40,
+      "attempts": 500,
+      "success_percent": 100.0,
+      "outcomes": {
+        "committed": 500
+      },
+      "p50_ms": 13.205923633106021,
+      "p95_ms": 116.38919929630369,
+      "p99_ms": 263.8085663405083,
+      "samples": 500,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          12.53410102481503,
+          14.141505585481829
+        ],
+        "p95": [
+          112.77366962197549,
+          162.59450031473625
+        ],
+        "p99": [
+          174.71808739711364,
+          429.2391717046459
+        ]
+      },
+      "success_95ci_percent": [
+        100.0,
+        100.0
+      ],
+      "bootstrap_seed": 40040,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 50,
+      "attempts": 500,
+      "success_percent": 99.6,
+      "outcomes": {
+        "committed": 498,
+        "timeout": 2
+      },
+      "p50_ms": 23.267163281775446,
+      "p95_ms": 259.41043192537614,
+      "p99_ms": 800.7003986622997,
+      "samples": 498,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          18.375451038295854,
+          57.23145129940021
+        ],
+        "p95": [
+          213.00991405495174,
+          310.89854574310704
+        ],
+        "p99": [
+          508.33979241021416,
+          1601.093012816659
+        ]
+      },
+      "success_95ci_percent": [
+        99.0,
+        100.0
+      ],
+      "bootstrap_seed": 40050,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 60,
+      "attempts": 500,
+      "success_percent": 97.39999999999999,
+      "outcomes": {
+        "committed": 487,
+        "timeout": 9,
+        "no_leader": 4
+      },
+      "p50_ms": 67.5413614411542,
+      "p95_ms": 1132.758469614788,
+      "p99_ms": 2208.7286593416193,
+      "samples": 487,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          64.06239566060565,
+          107.46430182198097
+        ],
+        "p95": [
+          905.5687029521542,
+          1494.003491840016
+        ],
+        "p99": [
+          1886.3750792223518,
+          2513.8248128861765
+        ]
+      },
+      "success_95ci_percent": [
+        95.4,
+        99.0
+      ],
+      "bootstrap_seed": 40060,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 70,
+      "attempts": 500,
+      "success_percent": 78.2,
+      "outcomes": {
+        "committed": 391,
+        "timeout": 92,
+        "no_leader": 17
+      },
+      "p50_ms": 120.93895188036674,
+      "p95_ms": 2298.282693520653,
+      "p99_ms": 2823.6325070479193,
+      "samples": 391,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          115.35156699958394,
+          168.7905470295341
+        ],
+        "p95": [
+          2136.082379245916,
+          2515.404351677253
+        ],
+        "p99": [
+          2674.4574963200876,
+          2878.0363110999547
+        ]
+      },
+      "success_95ci_percent": [
+        74.0,
+        82.4
+      ],
+      "bootstrap_seed": 40070,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    },
+    {
+      "loss_percent": 80,
+      "attempts": 500,
+      "success_percent": 25.6,
+      "outcomes": {
+        "timeout": 179,
+        "no_leader": 193,
+        "committed": 128
+      },
+      "p50_ms": 169.33745481605644,
+      "p95_ms": 2607.672065925775,
+      "p99_ms": 2900.480867324774,
+      "samples": 128,
+      "bootstrap_95ci_ms": {
+        "p50": [
+          117.19565941519238,
+          210.43981732306884
+        ],
+        "p95": [
+          2357.1234427780173,
+          2864.6304558730317
+        ],
+        "p99": [
+          2631.0651156618,
+          2977.1156605489914
+        ]
+      },
+      "success_95ci_percent": [
+        20.6,
+        30.4
+      ],
+      "bootstrap_seed": 40080,
+      "bootstrap_repetitions": 2000,
+      "bootstrap_nonempty_latency_resamples": 2000,
+      "independent_seeds": 100,
+      "quantile_label": "Sample estimates conditional on commitment"
+    }
+  ],
+  "elections": [
+    {
+      "size": 3,
+      "trials": 200,
+      "initial": {
+        "p50_ms": 197.48228134911184,
+        "p95_ms": 263.5697401756299,
+        "p99_ms": 276.95707291055334,
+        "samples": 200,
+        "phase_trials": 200,
+        "timeouts": 0,
+        "mean_election_attempts": 1.075,
+        "mean_rpc_sent": 8.66,
+        "split_vote_trial_percent": 0.0,
+        "split_vote_trials": 0,
+        "split_vote_terms": 0
+      },
+      "recovery": {
+        "p50_ms": 212.7189643296524,
+        "p95_ms": 454.4867006344279,
+        "p99_ms": 538.1948540611018,
+        "samples": 200,
+        "phase_trials": 200,
+        "timeouts": 0,
+        "mean_election_attempts": 1.22,
+        "mean_rpc_sent": 6.66,
+        "split_vote_trial_percent": 10.0,
+        "split_vote_trials": 20,
+        "split_vote_terms": 22
+      }
+    },
+    {
+      "size": 5,
+      "trials": 200,
+      "initial": {
+        "p50_ms": 190.60432415667805,
+        "p95_ms": 236.4069351417022,
+        "p99_ms": 266.07503793352043,
+        "samples": 200,
+        "phase_trials": 200,
+        "timeouts": 0,
+        "mean_election_attempts": 1.19,
+        "mean_rpc_sent": 18.34,
+        "split_vote_trial_percent": 0.5,
+        "split_vote_trials": 1,
+        "split_vote_terms": 1
+      },
+      "recovery": {
+        "p50_ms": 195.32568595089452,
+        "p95_ms": 330.22540707409286,
+        "p99_ms": 381.4362562179198,
+        "samples": 200,
+        "phase_trials": 200,
+        "timeouts": 0,
+        "mean_election_attempts": 1.225,
+        "mean_rpc_sent": 15.945,
+        "split_vote_trial_percent": 5.5,
+        "split_vote_trials": 11,
+        "split_vote_terms": 11
+      }
+    }
+  ],
+  "recovery": [
+    {
+      "scenario": "leader_crash",
+      "trials": 20,
+      "timeouts": 0,
+      "p50_ms": 195.57439499584856,
+      "p95_ms": 237.82848655537794,
+      "p99_ms": 248.23556006982426,
+      "samples": 20
+    },
+    {
+      "scenario": "minority_partition",
+      "trials": 20,
+      "timeouts": 0,
+      "p50_ms": 201.42879429655724,
+      "p95_ms": 283.6839439936234,
+      "p99_ms": 358.37323441398985,
+      "samples": 20
+    },
+    {
+      "scenario": "partition_healing",
+      "trials": 20,
+      "timeouts": 0,
+      "p50_ms": 60.307776908682776,
+      "p95_ms": 64.08383859259037,
+      "p99_ms": 64.38528504523887,
+      "samples": 20
+    },
+    {
+      "scenario": "outdated_follower_restart",
+      "trials": 20,
+      "timeouts": 0,
+      "p50_ms": 8.388461358533384,
+      "p95_ms": 9.973109974148057,
+      "p99_ms": 9.979107074394607,
+      "samples": 20
+    }
+  ]
+}

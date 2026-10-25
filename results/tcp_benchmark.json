@@ -1,0 +1,2025 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-10-24T12:35:52.562430+00:00",
+  "method": {
+    "nodes": 3,
+    "node_processes": 3,
+    "client_processes": 1,
+    "network": "IPv4 localhost TCP",
+    "storage": "FileStorage",
+    "writes": "sequential SET commands with distinct keys and values",
+    "retries": 0,
+    "warmup_writes": 0,
+    "faults_injected": false,
+    "timing": "perf_counter_ns around await transport.request; includes connection establishment, send, committed reply and connection close",
+    "excluded_from_timing": "process startup, initial election, initial leader no-op, status polling and final convergence verification",
+    "clock_implementation": "QueryPerformanceCounter()",
+    "clock_resolution_s": 1e-07,
+    "quantiles": "linear interpolation between order statistics",
+    "base_seed": 42,
+    "node_seeds": {
+      "1": 2746317213,
+      "2": 478163327,
+      "3": 107420369
+    },
+    "runtime_tick_interval_s": 0.01,
+    "fsync": "normal FileStorage full JSON snapshot, file flush/fsync and atomic replace; parent-directory fsync only on POSIX"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "logical_cpus": 8,
+    "filesystem": "NTFS",
+    "storage_directory": "data/tcp-run",
+    "storage_device_type": "not identified; no NVMe/SSD claim",
+    "other_host_workload": "not controlled"
+  },
+  "summary": {
+    "offered": 100,
+    "committed": 100,
+    "failed_or_unknown": 0,
+    "p50_ms": 15.957999999999998,
+    "p95_ms": 30.452385,
+    "p99_ms": 31.541895000000032,
+    "min_ms": 8.3216,
+    "max_ms": 37.5606,
+    "measured_elapsed_ms": 1804.8171,
+    "all_nodes_applied_expected_state": true,
+    "all_durable_command_sequences_match": true,
+    "distinct_success_indices": true,
+    "all_node_processes_alive": true
+  },
+  "observations": [
+    {
+      "sequence": 1,
+      "command": {
+        "op": "set",
+        "key": "tcp-0001",
+        "value": "value-0001"
+      },
+      "elapsed_ns": 11002600,
+      "latency_ms": 11.0026,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 2,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 2,
+      "command": {
+        "op": "set",
+        "key": "tcp-0002",
+        "value": "value-0002"
+      },
+      "elapsed_ns": 10911100,
+      "latency_ms": 10.9111,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 3,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 3,
+      "command": {
+        "op": "set",
+        "key": "tcp-0003",
+        "value": "value-0003"
+      },
+      "elapsed_ns": 11506500,
+      "latency_ms": 11.5065,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 4,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 4,
+      "command": {
+        "op": "set",
+        "key": "tcp-0004",
+        "value": "value-0004"
+      },
+      "elapsed_ns": 10438800,
+      "latency_ms": 10.4388,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 5,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 5,
+      "command": {
+        "op": "set",
+        "key": "tcp-0005",
+        "value": "value-0005"
+      },
+      "elapsed_ns": 11012400,
+      "latency_ms": 11.0124,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 6,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 6,
+      "command": {
+        "op": "set",
+        "key": "tcp-0006",
+        "value": "value-0006"
+      },
+      "elapsed_ns": 11424400,
+      "latency_ms": 11.4244,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 7,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 7,
+      "command": {
+        "op": "set",
+        "key": "tcp-0007",
+        "value": "value-0007"
+      },
+      "elapsed_ns": 8837600,
+      "latency_ms": 8.8376,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 8,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 8,
+      "command": {
+        "op": "set",
+        "key": "tcp-0008",
+        "value": "value-0008"
+      },
+      "elapsed_ns": 9298900,
+      "latency_ms": 9.2989,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 9,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 9,
+      "command": {
+        "op": "set",
+        "key": "tcp-0009",
+        "value": "value-0009"
+      },
+      "elapsed_ns": 9306000,
+      "latency_ms": 9.306,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 10,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 10,
+      "command": {
+        "op": "set",
+        "key": "tcp-0010",
+        "value": "value-0010"
+      },
+      "elapsed_ns": 8793300,
+      "latency_ms": 8.7933,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 11,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 11,
+      "command": {
+        "op": "set",
+        "key": "tcp-0011",
+        "value": "value-0011"
+      },
+      "elapsed_ns": 9448100,
+      "latency_ms": 9.4481,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 12,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 12,
+      "command": {
+        "op": "set",
+        "key": "tcp-0012",
+        "value": "value-0012"
+      },
+      "elapsed_ns": 8844500,
+      "latency_ms": 8.8445,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 13,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 13,
+      "command": {
+        "op": "set",
+        "key": "tcp-0013",
+        "value": "value-0013"
+      },
+      "elapsed_ns": 8321600,
+      "latency_ms": 8.3216,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 14,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 14,
+      "command": {
+        "op": "set",
+        "key": "tcp-0014",
+        "value": "value-0014"
+      },
+      "elapsed_ns": 9099200,
+      "latency_ms": 9.0992,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 15,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 15,
+      "command": {
+        "op": "set",
+        "key": "tcp-0015",
+        "value": "value-0015"
+      },
+      "elapsed_ns": 8951800,
+      "latency_ms": 8.9518,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 16,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 16,
+      "command": {
+        "op": "set",
+        "key": "tcp-0016",
+        "value": "value-0016"
+      },
+      "elapsed_ns": 9140100,
+      "latency_ms": 9.1401,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 17,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 17,
+      "command": {
+        "op": "set",
+        "key": "tcp-0017",
+        "value": "value-0017"
+      },
+      "elapsed_ns": 9832300,
+      "latency_ms": 9.8323,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 18,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 18,
+      "command": {
+        "op": "set",
+        "key": "tcp-0018",
+        "value": "value-0018"
+      },
+      "elapsed_ns": 9498900,
+      "latency_ms": 9.4989,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 19,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 19,
+      "command": {
+        "op": "set",
+        "key": "tcp-0019",
+        "value": "value-0019"
+      },
+      "elapsed_ns": 9687300,
+      "latency_ms": 9.6873,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 20,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 20,
+      "command": {
+        "op": "set",
+        "key": "tcp-0020",
+        "value": "value-0020"
+      },
+      "elapsed_ns": 9156700,
+      "latency_ms": 9.1567,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 21,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 21,
+      "command": {
+        "op": "set",
+        "key": "tcp-0021",
+        "value": "value-0021"
+      },
+      "elapsed_ns": 8772700,
+      "latency_ms": 8.7727,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 22,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 22,
+      "command": {
+        "op": "set",
+        "key": "tcp-0022",
+        "value": "value-0022"
+      },
+      "elapsed_ns": 11441500,
+      "latency_ms": 11.4415,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 23,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 23,
+      "command": {
+        "op": "set",
+        "key": "tcp-0023",
+        "value": "value-0023"
+      },
+      "elapsed_ns": 12957900,
+      "latency_ms": 12.9579,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 24,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 24,
+      "command": {
+        "op": "set",
+        "key": "tcp-0024",
+        "value": "value-0024"
+      },
+      "elapsed_ns": 25608400,
+      "latency_ms": 25.6084,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 25,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 25,
+      "command": {
+        "op": "set",
+        "key": "tcp-0025",
+        "value": "value-0025"
+      },
+      "elapsed_ns": 11449700,
+      "latency_ms": 11.4497,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 26,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 26,
+      "command": {
+        "op": "set",
+        "key": "tcp-0026",
+        "value": "value-0026"
+      },
+      "elapsed_ns": 11278800,
+      "latency_ms": 11.2788,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 27,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 27,
+      "command": {
+        "op": "set",
+        "key": "tcp-0027",
+        "value": "value-0027"
+      },
+      "elapsed_ns": 10945800,
+      "latency_ms": 10.9458,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 28,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 28,
+      "command": {
+        "op": "set",
+        "key": "tcp-0028",
+        "value": "value-0028"
+      },
+      "elapsed_ns": 12742000,
+      "latency_ms": 12.742,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 29,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 29,
+      "command": {
+        "op": "set",
+        "key": "tcp-0029",
+        "value": "value-0029"
+      },
+      "elapsed_ns": 11995600,
+      "latency_ms": 11.9956,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 30,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 30,
+      "command": {
+        "op": "set",
+        "key": "tcp-0030",
+        "value": "value-0030"
+      },
+      "elapsed_ns": 12475700,
+      "latency_ms": 12.4757,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 31,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 31,
+      "command": {
+        "op": "set",
+        "key": "tcp-0031",
+        "value": "value-0031"
+      },
+      "elapsed_ns": 12708700,
+      "latency_ms": 12.7087,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 32,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 32,
+      "command": {
+        "op": "set",
+        "key": "tcp-0032",
+        "value": "value-0032"
+      },
+      "elapsed_ns": 10703900,
+      "latency_ms": 10.7039,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 33,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 33,
+      "command": {
+        "op": "set",
+        "key": "tcp-0033",
+        "value": "value-0033"
+      },
+      "elapsed_ns": 13795100,
+      "latency_ms": 13.7951,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 34,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 34,
+      "command": {
+        "op": "set",
+        "key": "tcp-0034",
+        "value": "value-0034"
+      },
+      "elapsed_ns": 37560600,
+      "latency_ms": 37.5606,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 35,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 35,
+      "command": {
+        "op": "set",
+        "key": "tcp-0035",
+        "value": "value-0035"
+      },
+      "elapsed_ns": 13149000,
+      "latency_ms": 13.149,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 36,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 36,
+      "command": {
+        "op": "set",
+        "key": "tcp-0036",
+        "value": "value-0036"
+      },
+      "elapsed_ns": 13316100,
+      "latency_ms": 13.3161,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 37,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 37,
+      "command": {
+        "op": "set",
+        "key": "tcp-0037",
+        "value": "value-0037"
+      },
+      "elapsed_ns": 12563000,
+      "latency_ms": 12.563,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 38,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 38,
+      "command": {
+        "op": "set",
+        "key": "tcp-0038",
+        "value": "value-0038"
+      },
+      "elapsed_ns": 13586500,
+      "latency_ms": 13.5865,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 39,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 39,
+      "command": {
+        "op": "set",
+        "key": "tcp-0039",
+        "value": "value-0039"
+      },
+      "elapsed_ns": 15308900,
+      "latency_ms": 15.3089,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 40,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 40,
+      "command": {
+        "op": "set",
+        "key": "tcp-0040",
+        "value": "value-0040"
+      },
+      "elapsed_ns": 12823100,
+      "latency_ms": 12.8231,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 41,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 41,
+      "command": {
+        "op": "set",
+        "key": "tcp-0041",
+        "value": "value-0041"
+      },
+      "elapsed_ns": 14151400,
+      "latency_ms": 14.1514,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 42,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 42,
+      "command": {
+        "op": "set",
+        "key": "tcp-0042",
+        "value": "value-0042"
+      },
+      "elapsed_ns": 11769000,
+      "latency_ms": 11.769,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 43,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 43,
+      "command": {
+        "op": "set",
+        "key": "tcp-0043",
+        "value": "value-0043"
+      },
+      "elapsed_ns": 12384700,
+      "latency_ms": 12.3847,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 44,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 44,
+      "command": {
+        "op": "set",
+        "key": "tcp-0044",
+        "value": "value-0044"
+      },
+      "elapsed_ns": 14539300,
+      "latency_ms": 14.5393,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 45,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 45,
+      "command": {
+        "op": "set",
+        "key": "tcp-0045",
+        "value": "value-0045"
+      },
+      "elapsed_ns": 14949300,
+      "latency_ms": 14.9493,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 46,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 46,
+      "command": {
+        "op": "set",
+        "key": "tcp-0046",
+        "value": "value-0046"
+      },
+      "elapsed_ns": 14834800,
+      "latency_ms": 14.8348,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 47,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 47,
+      "command": {
+        "op": "set",
+        "key": "tcp-0047",
+        "value": "value-0047"
+      },
+      "elapsed_ns": 14793300,
+      "latency_ms": 14.7933,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 48,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 48,
+      "command": {
+        "op": "set",
+        "key": "tcp-0048",
+        "value": "value-0048"
+      },
+      "elapsed_ns": 14887500,
+      "latency_ms": 14.8875,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 49,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 49,
+      "command": {
+        "op": "set",
+        "key": "tcp-0049",
+        "value": "value-0049"
+      },
+      "elapsed_ns": 14560600,
+      "latency_ms": 14.5606,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 50,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 50,
+      "command": {
+        "op": "set",
+        "key": "tcp-0050",
+        "value": "value-0050"
+      },
+      "elapsed_ns": 15761300,
+      "latency_ms": 15.7613,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 51,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 51,
+      "command": {
+        "op": "set",
+        "key": "tcp-0051",
+        "value": "value-0051"
+      },
+      "elapsed_ns": 14869800,
+      "latency_ms": 14.8698,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 52,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 52,
+      "command": {
+        "op": "set",
+        "key": "tcp-0052",
+        "value": "value-0052"
+      },
+      "elapsed_ns": 17058500,
+      "latency_ms": 17.0585,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 53,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 53,
+      "command": {
+        "op": "set",
+        "key": "tcp-0053",
+        "value": "value-0053"
+      },
+      "elapsed_ns": 16154700,
+      "latency_ms": 16.1547,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 54,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 54,
+      "command": {
+        "op": "set",
+        "key": "tcp-0054",
+        "value": "value-0054"
+      },
+      "elapsed_ns": 16511200,
+      "latency_ms": 16.5112,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 55,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 55,
+      "command": {
+        "op": "set",
+        "key": "tcp-0055",
+        "value": "value-0055"
+      },
+      "elapsed_ns": 16182700,
+      "latency_ms": 16.1827,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 56,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 56,
+      "command": {
+        "op": "set",
+        "key": "tcp-0056",
+        "value": "value-0056"
+      },
+      "elapsed_ns": 14779900,
+      "latency_ms": 14.7799,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 57,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 57,
+      "command": {
+        "op": "set",
+        "key": "tcp-0057",
+        "value": "value-0057"
+      },
+      "elapsed_ns": 17382800,
+      "latency_ms": 17.3828,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 58,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 58,
+      "command": {
+        "op": "set",
+        "key": "tcp-0058",
+        "value": "value-0058"
+      },
+      "elapsed_ns": 22553900,
+      "latency_ms": 22.5539,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 59,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 59,
+      "command": {
+        "op": "set",
+        "key": "tcp-0059",
+        "value": "value-0059"
+      },
+      "elapsed_ns": 17951000,
+      "latency_ms": 17.951,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 60,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 60,
+      "command": {
+        "op": "set",
+        "key": "tcp-0060",
+        "value": "value-0060"
+      },
+      "elapsed_ns": 23766500,
+      "latency_ms": 23.7665,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 61,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 61,
+      "command": {
+        "op": "set",
+        "key": "tcp-0061",
+        "value": "value-0061"
+      },
+      "elapsed_ns": 20379300,
+      "latency_ms": 20.3793,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 62,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 62,
+      "command": {
+        "op": "set",
+        "key": "tcp-0062",
+        "value": "value-0062"
+      },
+      "elapsed_ns": 19009300,
+      "latency_ms": 19.0093,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 63,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 63,
+      "command": {
+        "op": "set",
+        "key": "tcp-0063",
+        "value": "value-0063"
+      },
+      "elapsed_ns": 21844100,
+      "latency_ms": 21.8441,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 64,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 64,
+      "command": {
+        "op": "set",
+        "key": "tcp-0064",
+        "value": "value-0064"
+      },
+      "elapsed_ns": 26648100,
+      "latency_ms": 26.6481,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 65,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 65,
+      "command": {
+        "op": "set",
+        "key": "tcp-0065",
+        "value": "value-0065"
+      },
+      "elapsed_ns": 25206300,
+      "latency_ms": 25.2063,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 66,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 66,
+      "command": {
+        "op": "set",
+        "key": "tcp-0066",
+        "value": "value-0066"
+      },
+      "elapsed_ns": 25517000,
+      "latency_ms": 25.517,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 67,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 67,
+      "command": {
+        "op": "set",
+        "key": "tcp-0067",
+        "value": "value-0067"
+      },
+      "elapsed_ns": 26771400,
+      "latency_ms": 26.7714,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 68,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 68,
+      "command": {
+        "op": "set",
+        "key": "tcp-0068",
+        "value": "value-0068"
+      },
+      "elapsed_ns": 26991400,
+      "latency_ms": 26.9914,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 69,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 69,
+      "command": {
+        "op": "set",
+        "key": "tcp-0069",
+        "value": "value-0069"
+      },
+      "elapsed_ns": 22907200,
+      "latency_ms": 22.9072,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 70,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 70,
+      "command": {
+        "op": "set",
+        "key": "tcp-0070",
+        "value": "value-0070"
+      },
+      "elapsed_ns": 21472600,
+      "latency_ms": 21.4726,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 71,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 71,
+      "command": {
+        "op": "set",
+        "key": "tcp-0071",
+        "value": "value-0071"
+      },
+      "elapsed_ns": 28763500,
+      "latency_ms": 28.7635,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 72,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 72,
+      "command": {
+        "op": "set",
+        "key": "tcp-0072",
+        "value": "value-0072"
+      },
+      "elapsed_ns": 25509600,
+      "latency_ms": 25.5096,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 73,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 73,
+      "command": {
+        "op": "set",
+        "key": "tcp-0073",
+        "value": "value-0073"
+      },
+      "elapsed_ns": 25727200,
+      "latency_ms": 25.7272,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 74,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 74,
+      "command": {
+        "op": "set",
+        "key": "tcp-0074",
+        "value": "value-0074"
+      },
+      "elapsed_ns": 24522500,
+      "latency_ms": 24.5225,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 75,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 75,
+      "command": {
+        "op": "set",
+        "key": "tcp-0075",
+        "value": "value-0075"
+      },
+      "elapsed_ns": 31481100,
+      "latency_ms": 31.4811,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 76,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 76,
+      "command": {
+        "op": "set",
+        "key": "tcp-0076",
+        "value": "value-0076"
+      },
+      "elapsed_ns": 31017700,
+      "latency_ms": 31.0177,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 77,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 77,
+      "command": {
+        "op": "set",
+        "key": "tcp-0077",
+        "value": "value-0077"
+      },
+      "elapsed_ns": 23600900,
+      "latency_ms": 23.6009,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 78,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 78,
+      "command": {
+        "op": "set",
+        "key": "tcp-0078",
+        "value": "value-0078"
+      },
+      "elapsed_ns": 30450900,
+      "latency_ms": 30.4509,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 79,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 79,
+      "command": {
+        "op": "set",
+        "key": "tcp-0079",
+        "value": "value-0079"
+      },
+      "elapsed_ns": 29699300,
+      "latency_ms": 29.6993,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 80,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 80,
+      "command": {
+        "op": "set",
+        "key": "tcp-0080",
+        "value": "value-0080"
+      },
+      "elapsed_ns": 23854300,
+      "latency_ms": 23.8543,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 81,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 81,
+      "command": {
+        "op": "set",
+        "key": "tcp-0081",
+        "value": "value-0081"
+      },
+      "elapsed_ns": 22186900,
+      "latency_ms": 22.1869,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 82,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 82,
+      "command": {
+        "op": "set",
+        "key": "tcp-0082",
+        "value": "value-0082"
+      },
+      "elapsed_ns": 22973800,
+      "latency_ms": 22.9738,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 83,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 83,
+      "command": {
+        "op": "set",
+        "key": "tcp-0083",
+        "value": "value-0083"
+      },
+      "elapsed_ns": 24064900,
+      "latency_ms": 24.0649,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 84,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 84,
+      "command": {
+        "op": "set",
+        "key": "tcp-0084",
+        "value": "value-0084"
+      },
+      "elapsed_ns": 24754200,
+      "latency_ms": 24.7542,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 85,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 85,
+      "command": {
+        "op": "set",
+        "key": "tcp-0085",
+        "value": "value-0085"
+      },
+      "elapsed_ns": 22241200,
+      "latency_ms": 22.2412,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 86,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 86,
+      "command": {
+        "op": "set",
+        "key": "tcp-0086",
+        "value": "value-0086"
+      },
+      "elapsed_ns": 21618200,
+      "latency_ms": 21.6182,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 87,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 87,
+      "command": {
+        "op": "set",
+        "key": "tcp-0087",
+        "value": "value-0087"
+      },
+      "elapsed_ns": 24367700,
+      "latency_ms": 24.3677,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 88,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 88,
+      "command": {
+        "op": "set",
+        "key": "tcp-0088",
+        "value": "value-0088"
+      },
+      "elapsed_ns": 23785500,
+      "latency_ms": 23.7855,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 89,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 89,
+      "command": {
+        "op": "set",
+        "key": "tcp-0089",
+        "value": "value-0089"
+      },
+      "elapsed_ns": 22142800,
+      "latency_ms": 22.1428,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 90,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 90,
+      "command": {
+        "op": "set",
+        "key": "tcp-0090",
+        "value": "value-0090"
+      },
+      "elapsed_ns": 25296600,
+      "latency_ms": 25.2966,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 91,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 91,
+      "command": {
+        "op": "set",
+        "key": "tcp-0091",
+        "value": "value-0091"
+      },
+      "elapsed_ns": 25762800,
+      "latency_ms": 25.7628,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 92,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 92,
+      "command": {
+        "op": "set",
+        "key": "tcp-0092",
+        "value": "value-0092"
+      },
+      "elapsed_ns": 23317200,
+      "latency_ms": 23.3172,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 93,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 93,
+      "command": {
+        "op": "set",
+        "key": "tcp-0093",
+        "value": "value-0093"
+      },
+      "elapsed_ns": 24965000,
+      "latency_ms": 24.965,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 94,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 94,
+      "command": {
+        "op": "set",
+        "key": "tcp-0094",
+        "value": "value-0094"
+      },
+      "elapsed_ns": 30519900,
+      "latency_ms": 30.5199,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 95,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 95,
+      "command": {
+        "op": "set",
+        "key": "tcp-0095",
+        "value": "value-0095"
+      },
+      "elapsed_ns": 30480600,
+      "latency_ms": 30.4806,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 96,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 96,
+      "command": {
+        "op": "set",
+        "key": "tcp-0096",
+        "value": "value-0096"
+      },
+      "elapsed_ns": 23810400,
+      "latency_ms": 23.8104,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 97,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 97,
+      "command": {
+        "op": "set",
+        "key": "tcp-0097",
+        "value": "value-0097"
+      },
+      "elapsed_ns": 23310400,
+      "latency_ms": 23.3104,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 98,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 98,
+      "command": {
+        "op": "set",
+        "key": "tcp-0098",
+        "value": "value-0098"
+      },
+      "elapsed_ns": 26950600,
+      "latency_ms": 26.9506,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 99,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 99,
+      "command": {
+        "op": "set",
+        "key": "tcp-0099",
+        "value": "value-0099"
+      },
+      "elapsed_ns": 24513200,
+      "latency_ms": 24.5132,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 100,
+        "term": 1
+      }
+    },
+    {
+      "sequence": 100,
+      "command": {
+        "op": "set",
+        "key": "tcp-0100",
+        "value": "value-0100"
+      },
+      "elapsed_ns": 26607300,
+      "latency_ms": 26.6073,
+      "response": {
+        "ok": true,
+        "committed": true,
+        "index": 101,
+        "term": 1
+      }
+    }
+  ],
+  "final_node_statuses": {
+    "1": {
+      "ok": true,
+      "node_id": 1,
+      "role": "follower",
+      "term": 1,
+      "leader_id": 2,
+      "leader_address": "127.0.0.1:63145",
+      "commit_index": 101,
+      "last_applied": 101,
+      "last_log_index": 101,
+      "state": {
+        "tcp-0001": "value-0001",
+        "tcp-0002": "value-0002",
+        "tcp-0003": "value-0003",
+        "tcp-0004": "value-0004",
+        "tcp-0005": "value-0005",
+        "tcp-0006": "value-0006",
+        "tcp-0007": "value-0007",
+        "tcp-0008": "value-0008",
+        "tcp-0009": "value-0009",
+        "tcp-0010": "value-0010",
+        "tcp-0011": "value-0011",
+        "tcp-0012": "value-0012",
+        "tcp-0013": "value-0013",
+        "tcp-0014": "value-0014",
+        "tcp-0015": "value-0015",
+        "tcp-0016": "value-0016",
+        "tcp-0017": "value-0017",
+        "tcp-0018": "value-0018",
+        "tcp-0019": "value-0019",
+        "tcp-0020": "value-0020",
+        "tcp-0021": "value-0021",
+        "tcp-0022": "value-0022",
+        "tcp-0023": "value-0023",
+        "tcp-0024": "value-0024",
+        "tcp-0025": "value-0025",
+        "tcp-0026": "value-0026",
+        "tcp-0027": "value-0027",
+        "tcp-0028": "value-0028",
+        "tcp-0029": "value-0029",
+        "tcp-0030": "value-0030",
+        "tcp-0031": "value-0031",
+        "tcp-0032": "value-0032",
+        "tcp-0033": "value-0033",
+        "tcp-0034": "value-0034",
+        "tcp-0035": "value-0035",
+        "tcp-0036": "value-0036",
+        "tcp-0037": "value-0037",
+        "tcp-0038": "value-0038",
+        "tcp-0039": "value-0039",
+        "tcp-0040": "value-0040",
+        "tcp-0041": "value-0041",
+        "tcp-0042": "value-0042",
+        "tcp-0043": "value-0043",
+        "tcp-0044": "value-0044",
+        "tcp-0045": "value-0045",
+        "tcp-0046": "value-0046",
+        "tcp-0047": "value-0047",
+        "tcp-0048": "value-0048",
+        "tcp-0049": "value-0049",
+        "tcp-0050": "value-0050",
+        "tcp-0051": "value-0051",
+        "tcp-0052": "value-0052",
+        "tcp-0053": "value-0053",
+        "tcp-0054": "value-0054",
+        "tcp-0055": "value-0055",
+        "tcp-0056": "value-0056",
+        "tcp-0057": "value-0057",
+        "tcp-0058": "value-0058",
+        "tcp-0059": "value-0059",
+        "tcp-0060": "value-0060",
+        "tcp-0061": "value-0061",
+        "tcp-0062": "value-0062",
+        "tcp-0063": "value-0063",
+        "tcp-0064": "value-0064",
+        "tcp-0065": "value-0065",
+        "tcp-0066": "value-0066",
+        "tcp-0067": "value-0067",
+        "tcp-0068": "value-0068",
+        "tcp-0069": "value-0069",
+        "tcp-0070": "value-0070",
+        "tcp-0071": "value-0071",
+        "tcp-0072": "value-0072",
+        "tcp-0073": "value-0073",
+        "tcp-0074": "value-0074",
+        "tcp-0075": "value-0075",
+        "tcp-0076": "value-0076",
+        "tcp-0077": "value-0077",
+        "tcp-0078": "value-0078",
+        "tcp-0079": "value-0079",
+        "tcp-0080": "value-0080",
+        "tcp-0081": "value-0081",
+        "tcp-0082": "value-0082",
+        "tcp-0083": "value-0083",
+        "tcp-0084": "value-0084",
+        "tcp-0085": "value-0085",
+        "tcp-0086": "value-0086",
+        "tcp-0087": "value-0087",
+        "tcp-0088": "value-0088",
+        "tcp-0089": "value-0089",
+        "tcp-0090": "value-0090",
+        "tcp-0091": "value-0091",
+        "tcp-0092": "value-0092",
+        "tcp-0093": "value-0093",
+        "tcp-0094": "value-0094",
+        "tcp-0095": "value-0095",
+        "tcp-0096": "value-0096",
+        "tcp-0097": "value-0097",
+        "tcp-0098": "value-0098",
+        "tcp-0099": "value-0099",
+        "tcp-0100": "value-0100"
+      },
+      "read_consistency": "local_stale"
+    },
+    "2": {
+      "ok": true,
+      "node_id": 2,
+      "role": "leader",
+      "term": 1,
+      "leader_id": 2,
+      "leader_address": "127.0.0.1:63145",
+      "commit_index": 101,
+      "last_applied": 101,
+      "last_log_index": 101,
+      "state": {
+        "tcp-0001": "value-0001",
+        "tcp-0002": "value-0002",
+        "tcp-0003": "value-0003",
+        "tcp-0004": "value-0004",
+        "tcp-0005": "value-0005",
+        "tcp-0006": "value-0006",
+        "tcp-0007": "value-0007",
+        "tcp-0008": "value-0008",
+        "tcp-0009": "value-0009",
+        "tcp-0010": "value-0010",
+        "tcp-0011": "value-0011",
+        "tcp-0012": "value-0012",
+        "tcp-0013": "value-0013",
+        "tcp-0014": "value-0014",
+        "tcp-0015": "value-0015",
+        "tcp-0016": "value-0016",
+        "tcp-0017": "value-0017",
+        "tcp-0018": "value-0018",
+        "tcp-0019": "value-0019",
+        "tcp-0020": "value-0020",
+        "tcp-0021": "value-0021",
+        "tcp-0022": "value-0022",
+        "tcp-0023": "value-0023",
+        "tcp-0024": "value-0024",
+        "tcp-0025": "value-0025",
+        "tcp-0026": "value-0026",
+        "tcp-0027": "value-0027",
+        "tcp-0028": "value-0028",
+        "tcp-0029": "value-0029",
+        "tcp-0030": "value-0030",
+        "tcp-0031": "value-0031",
+        "tcp-0032": "value-0032",
+        "tcp-0033": "value-0033",
+        "tcp-0034": "value-0034",
+        "tcp-0035": "value-0035",
+        "tcp-0036": "value-0036",
+        "tcp-0037": "value-0037",
+        "tcp-0038": "value-0038",
+        "tcp-0039": "value-0039",
+        "tcp-0040": "value-0040",
+        "tcp-0041": "value-0041",
+        "tcp-0042": "value-0042",
+        "tcp-0043": "value-0043",
+        "tcp-0044": "value-0044",
+        "tcp-0045": "value-0045",
+        "tcp-0046": "value-0046",
+        "tcp-0047": "value-0047",
+        "tcp-0048": "value-0048",
+        "tcp-0049": "value-0049",
+        "tcp-0050": "value-0050",
+        "tcp-0051": "value-0051",
+        "tcp-0052": "value-0052",
+        "tcp-0053": "value-0053",
+        "tcp-0054": "value-0054",
+        "tcp-0055": "value-0055",
+        "tcp-0056": "value-0056",
+        "tcp-0057": "value-0057",
+        "tcp-0058": "value-0058",
+        "tcp-0059": "value-0059",
+        "tcp-0060": "value-0060",
+        "tcp-0061": "value-0061",
+        "tcp-0062": "value-0062",
+        "tcp-0063": "value-0063",
+        "tcp-0064": "value-0064",
+        "tcp-0065": "value-0065",
+        "tcp-0066": "value-0066",
+        "tcp-0067": "value-0067",
+        "tcp-0068": "value-0068",
+        "tcp-0069": "value-0069",
+        "tcp-0070": "value-0070",
+        "tcp-0071": "value-0071",
+        "tcp-0072": "value-0072",
+        "tcp-0073": "value-0073",
+        "tcp-0074": "value-0074",
+        "tcp-0075": "value-0075",
+        "tcp-0076": "value-0076",
+        "tcp-0077": "value-0077",
+        "tcp-0078": "value-0078",
+        "tcp-0079": "value-0079",
+        "tcp-0080": "value-0080",
+        "tcp-0081": "value-0081",
+        "tcp-0082": "value-0082",
+        "tcp-0083": "value-0083",
+        "tcp-0084": "value-0084",
+        "tcp-0085": "value-0085",
+        "tcp-0086": "value-0086",
+        "tcp-0087": "value-0087",
+        "tcp-0088": "value-0088",
+        "tcp-0089": "value-0089",
+        "tcp-0090": "value-0090",
+        "tcp-0091": "value-0091",
+        "tcp-0092": "value-0092",
+        "tcp-0093": "value-0093",
+        "tcp-0094": "value-0094",
+        "tcp-0095": "value-0095",
+        "tcp-0096": "value-0096",
+        "tcp-0097": "value-0097",
+        "tcp-0098": "value-0098",
+        "tcp-0099": "value-0099",
+        "tcp-0100": "value-0100"
+      },
+      "read_consistency": "local_stale"
+    },
+    "3": {
+      "ok": true,
+      "node_id": 3,
+      "role": "follower",
+      "term": 1,
+      "leader_id": 2,
+      "leader_address": "127.0.0.1:63145",
+      "commit_index": 101,
+      "last_applied": 101,
+      "last_log_index": 101,
+      "state": {
+        "tcp-0001": "value-0001",
+        "tcp-0002": "value-0002",
+        "tcp-0003": "value-0003",
+        "tcp-0004": "value-0004",
+        "tcp-0005": "value-0005",
+        "tcp-0006": "value-0006",
+        "tcp-0007": "value-0007",
+        "tcp-0008": "value-0008",
+        "tcp-0009": "value-0009",
+        "tcp-0010": "value-0010",
+        "tcp-0011": "value-0011",
+        "tcp-0012": "value-0012",
+        "tcp-0013": "value-0013",
+        "tcp-0014": "value-0014",
+        "tcp-0015": "value-0015",
+        "tcp-0016": "value-0016",
+        "tcp-0017": "value-0017",
+        "tcp-0018": "value-0018",
+        "tcp-0019": "value-0019",
+        "tcp-0020": "value-0020",
+        "tcp-0021": "value-0021",
+        "tcp-0022": "value-0022",
+        "tcp-0023": "value-0023",
+        "tcp-0024": "value-0024",
+        "tcp-0025": "value-0025",
+        "tcp-0026": "value-0026",
+        "tcp-0027": "value-0027",
+        "tcp-0028": "value-0028",
+        "tcp-0029": "value-0029",
+        "tcp-0030": "value-0030",
+        "tcp-0031": "value-0031",
+        "tcp-0032": "value-0032",
+        "tcp-0033": "value-0033",
+        "tcp-0034": "value-0034",
+        "tcp-0035": "value-0035",
+        "tcp-0036": "value-0036",
+        "tcp-0037": "value-0037",
+        "tcp-0038": "value-0038",
+        "tcp-0039": "value-0039",
+        "tcp-0040": "value-0040",
+        "tcp-0041": "value-0041",
+        "tcp-0042": "value-0042",
+        "tcp-0043": "value-0043",
+        "tcp-0044": "value-0044",
+        "tcp-0045": "value-0045",
+        "tcp-0046": "value-0046",
+        "tcp-0047": "value-0047",
+        "tcp-0048": "value-0048",
+        "tcp-0049": "value-0049",
+        "tcp-0050": "value-0050",
+        "tcp-0051": "value-0051",
+        "tcp-0052": "value-0052",
+        "tcp-0053": "value-0053",
+        "tcp-0054": "value-0054",
+        "tcp-0055": "value-0055",
+        "tcp-0056": "value-0056",
+        "tcp-0057": "value-0057",
+        "tcp-0058": "value-0058",
+        "tcp-0059": "value-0059",
+        "tcp-0060": "value-0060",
+        "tcp-0061": "value-0061",
+        "tcp-0062": "value-0062",
+        "tcp-0063": "value-0063",
+        "tcp-0064": "value-0064",
+        "tcp-0065": "value-0065",
+        "tcp-0066": "value-0066",
+        "tcp-0067": "value-0067",
+        "tcp-0068": "value-0068",
+        "tcp-0069": "value-0069",
+        "tcp-0070": "value-0070",
+        "tcp-0071": "value-0071",
+        "tcp-0072": "value-0072",
+        "tcp-0073": "value-0073",
+        "tcp-0074": "value-0074",
+        "tcp-0075": "value-0075",
+        "tcp-0076": "value-0076",
+        "tcp-0077": "value-0077",
+        "tcp-0078": "value-0078",
+        "tcp-0079": "value-0079",
+        "tcp-0080": "value-0080",
+        "tcp-0081": "value-0081",
+        "tcp-0082": "value-0082",
+        "tcp-0083": "value-0083",
+        "tcp-0084": "value-0084",
+        "tcp-0085": "value-0085",
+        "tcp-0086": "value-0086",
+        "tcp-0087": "value-0087",
+        "tcp-0088": "value-0088",
+        "tcp-0089": "value-0089",
+        "tcp-0090": "value-0090",
+        "tcp-0091": "value-0091",
+        "tcp-0092": "value-0092",
+        "tcp-0093": "value-0093",
+        "tcp-0094": "value-0094",
+        "tcp-0095": "value-0095",
+        "tcp-0096": "value-0096",
+        "tcp-0097": "value-0097",
+        "tcp-0098": "value-0098",
+        "tcp-0099": "value-0099",
+        "tcp-0100": "value-0100"
+      },
+      "read_consistency": "local_stale"
+    }
+  },
+  "durable_snapshots": {
+    "1": {
+      "current_term": 1,
+      "last_log_index": 101,
+      "set_commands": 100,
+      "exact_commands_match": true
+    },
+    "2": {
+      "current_term": 1,
+      "last_log_index": 101,
+      "set_commands": 100,
+      "exact_commands_match": true
+    },
+    "3": {
+      "current_term": 1,
+      "last_log_index": 101,
+      "set_commands": 100,
+      "exact_commands_match": true
+    }
+  },
+  "caveats": [
+    "One local run; no independent-run confidence interval.",
+    "Loopback TCP does not model a physical network or multiple hosts.",
+    "The measurement does not isolate fsync, JSON or scheduler costs.",
+    "Wall-clock results vary with the host and workload."
+  ]
+}
