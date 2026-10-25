@@ -107,3 +107,7 @@ Durable votes, current-term commitment, RPC response correlation and historical 
 Simulation excludes disk, CPU and serialization costs and uses simple independent delays and loss. Finite tests, mutation witnesses and sampled seeds do not establish a formal proof. The five mutants are isolated witnesses with correct controls; their recorded assertions distinguish storage consistency failures from global consensus properties.
 
 Algorithm reference: Ongaro and Ousterhout, [In Search of an Understandable Consensus Algorithm](https://raft.github.io/raft.pdf), especially Figures 2 and 8. Generated testing uses [Hypothesis stateful tests](https://hypothesis.readthedocs.io/en/latest/stateful.html).
+
+## Authorship and AI Disclosure
+
+Project conceived, specified, and directed by @gsd-ops, including architecture requirements, evaluation goals, and iterative verification reviews. AI coding assistants (OpenAI Codex and Google Antigravity) were used as software engineering, testing, debugging, and LaTeX typesetting tools under human direction; all protocol tests, chaos simulations, and benchmarks were executed and verified locally.
