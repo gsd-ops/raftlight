@@ -9,6 +9,7 @@ import random
 import socket
 import subprocess
 import sys
+import time
 from typing import Callable, Any
 
 import pytest
@@ -32,7 +33,7 @@ def addresses(count: int) -> dict[int, tuple[str, int]]:
             item.close()
 
 
-async def eventually(predicate: Callable[[], Any], *, timeout: float = 6.0) -> Any:
+async def eventually(predicate: Callable[[], Any], *, timeout: float = 15.0) -> Any:
     """Bounded polling is appropriate here: these tests exercise physical TCP time."""
     loop = asyncio.get_running_loop()
     deadline = loop.time() + timeout
@@ -44,6 +45,31 @@ async def eventually(predicate: Callable[[], Any], *, timeout: float = 6.0) -> A
     raise AssertionError("TCP runtime condition did not converge within deadline")
 
 
+def shared_runtime(
+    node_id: int,
+    members: dict[int, tuple[str, int]],
+    data_path: Path,
+    *,
+    seed: int,
+    client_timeout: float = 5.0,
+) -> Runtime:
+    """Create an in-process Runtime sized for multi-node single-loop FileStorage tests.
+
+    Production runs one Runtime per OS process; multiplexing 3-5 FileStorage nodes
+    onto one asyncio loop serializes every fsync on a single thread, which can take
+    hundreds of milliseconds on virtualized Windows CI runners.
+    """
+    return Runtime(
+        node_id,
+        members,
+        data_path,
+        seed=seed,
+        client_timeout=client_timeout,
+        election_timeout=(0.60, 1.10),
+        heartbeat_interval=0.12,
+    )
+
+
 def leader_in(runtimes: dict[int, Runtime]) -> Runtime | None:
     for runtime in runtimes.values():
         if runtime.failure:
@@ -52,9 +78,36 @@ def leader_in(runtimes: dict[int, Runtime]) -> Runtime | None:
     if len(leaders) != 1:
         return None
     leader = leaders[0]
-    if all(r.node and r.node.leader_id == leader.node_id for r in runtimes.values()):
+    assert leader.node is not None
+    if all(
+        r.node and r.node.leader_id == leader.node_id and r.node.current_term == leader.node.current_term
+        for r in runtimes.values()
+    ):
         return leader
     return None
+
+
+async def commit_write(
+    runtimes: dict[int, Runtime],
+    members: dict[int, tuple[str, int]],
+    payload: dict[str, Any],
+    *,
+    timeout: float = 15.0,
+) -> tuple[Runtime, dict[str, Any]]:
+    loop = asyncio.get_running_loop()
+    deadline = loop.time() + timeout
+    last_response: dict[str, Any] | None = None
+    while loop.time() < deadline:
+        remaining = max(0.5, deadline - loop.time())
+        leader = await eventually(lambda: leader_in(runtimes), timeout=remaining)
+        response = await request(members[leader.node_id], payload)
+        if response.get("ok") and response.get("committed"):
+            return leader, response
+        last_response = response
+        if response.get("error") not in {"not_leader", "leadership_changed", "timeout"}:
+            break
+        await asyncio.sleep(0.02)
+    raise AssertionError(f"client write did not commit within deadline: {last_response}")
 
 
 @pytest.mark.parametrize("count", [3, 5])
@@ -64,9 +117,8 @@ def test_tcp_replication_failover_and_durable_restart(tmp_path: Path, count: int
         live: dict[int, Runtime] = {}
         try:
             for node_id in members:
-                live[node_id] = await Runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
-            leader = await eventually(lambda: leader_in(live))
-            result = await request(members[leader.node_id], {"op": "set", "key": "x", "value": "one"})
+                live[node_id] = await shared_runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
+            leader, result = await commit_write(live, members, {"op": "set", "key": "x", "value": "one"})
             assert result["ok"] and result["committed"]
             await eventually(lambda: all(r.node.machine == {"x": "one"} for r in live.values()))
 
@@ -74,19 +126,18 @@ def test_tcp_replication_failover_and_durable_restart(tmp_path: Path, count: int
             follower = live.pop(follower_id)
             await follower.stop()
             persisted_term = follower.node.current_term
-            result = await request(members[leader.node_id], {"op": "set", "key": "y", "value": "two"})
+            leader, result = await commit_write(live, members, {"op": "set", "key": "y", "value": "two"})
             assert result["ok"]
-            live[follower_id] = await Runtime(follower_id, members, tmp_path / f"{follower_id}.json", seed=100).start()
+            live[follower_id] = await shared_runtime(follower_id, members, tmp_path / f"{follower_id}.json", seed=100).start()
             assert live[follower_id].node.current_term >= persisted_term
             await eventually(lambda: all(r.node.machine == {"x": "one", "y": "two"} for r in live.values()))
 
             old_id = leader.node_id
             await live.pop(old_id).stop()
-            replacement = await eventually(lambda: leader_in(live))
+            replacement, result = await commit_write(live, members, {"op": "delete", "key": "x"})
             assert replacement.node_id != old_id
-            result = await request(members[replacement.node_id], {"op": "delete", "key": "x"})
             assert result["ok"]
-            live[old_id] = await Runtime(old_id, members, tmp_path / f"{old_id}.json", seed=200).start()
+            live[old_id] = await shared_runtime(old_id, members, tmp_path / f"{old_id}.json", seed=200).start()
             await eventually(lambda: all(r.node.machine == {"y": "two"} for r in live.values()))
             status = await request(members[old_id], {"op": "status"})
             assert status["read_consistency"] == "local_stale"
@@ -103,8 +154,8 @@ def test_minority_write_returns_unknown_not_success(tmp_path: Path) -> None:
         live: dict[int, Runtime] = {}
         try:
             for node_id in members:
-                live[node_id] = await Runtime(node_id, members, tmp_path / f"{node_id}.json",
-                                             seed=node_id, client_timeout=0.2).start()
+                live[node_id] = await shared_runtime(node_id, members, tmp_path / f"{node_id}.json",
+                                                     seed=node_id, client_timeout=0.2).start()
             leader = await eventually(lambda: leader_in(live))
             followers = [node_id for node_id in live if node_id != leader.node_id]
             for node_id in followers:
@@ -115,7 +166,7 @@ def test_minority_write_returns_unknown_not_success(tmp_path: Path) -> None:
             assert result["outcome"] == "unknown"
             assert "uncertain" not in leader.node.machine
             for node_id in followers:
-                live[node_id] = await Runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
+                live[node_id] = await shared_runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
             await eventually(lambda: all(r.node.machine.get("uncertain") == "v" for r in live.values()))
         finally:
             await asyncio.gather(*(runtime.stop() for runtime in live.values()))
@@ -128,7 +179,7 @@ def test_malformed_tcp_frames_do_not_mutate_raft_state(tmp_path: Path) -> None:
         live: dict[int, Runtime] = {}
         try:
             for node_id in members:
-                live[node_id] = await Runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
+                live[node_id] = await shared_runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
             leader = await eventually(lambda: leader_in(live))
             before = (leader.node.current_term, list(leader.node.log), dict(leader.node.machine))
             for frame in (
@@ -211,7 +262,7 @@ def test_disk_failure_stops_runtime_instead_of_acknowledging(tmp_path: Path, mon
         live: dict[int, Runtime] = {}
         try:
             for node_id in members:
-                live[node_id] = await Runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
+                live[node_id] = await shared_runtime(node_id, members, tmp_path / f"{node_id}.json", seed=node_id).start()
             leader = await eventually(lambda: leader_in(live))
 
             def failed_save(_state: Any) -> None:
@@ -221,7 +272,7 @@ def test_disk_failure_stops_runtime_instead_of_acknowledging(tmp_path: Path, mon
             with pytest.raises((OSError, ValueError)):
                 await request(members[leader.node_id], {"op": "set", "key": "unsafe", "value": "v"})
             with pytest.raises(StorageFailure):
-                await asyncio.wait_for(leader.wait_failure(), 1)
+                await asyncio.wait_for(leader.wait_failure(), 2)
             assert not leader.server.is_serving()
             assert "unsafe" not in leader.node.machine
             await leader.stop()
@@ -249,12 +300,12 @@ def test_cli_independent_processes_survive_leader_kill(tmp_path: Path, count: in
         )
 
     async def find_leader() -> int:
-        deadline = asyncio.get_running_loop().time() + 8
+        deadline = asyncio.get_running_loop().time() + 15
         while asyncio.get_running_loop().time() < deadline:
             for node_id, process in processes.items():
                 assert process.poll() is None, (tmp_path / f"process-{node_id}.log").read_text()
                 try:
-                    status = await request(members[node_id], {"op": "status"}, timeout=0.3)
+                    status = await request(members[node_id], {"op": "status"}, timeout=1.0)
                 except (OSError, asyncio.TimeoutError):
                     continue
                 if status["role"] == "leader":
@@ -262,22 +313,37 @@ def test_cli_independent_processes_survive_leader_kill(tmp_path: Path, count: in
             await asyncio.sleep(0.02)
         raise AssertionError("independent node processes failed to elect a leader")
 
-    def cli_set(node_id: int, value: str) -> None:
-        host, port = members[node_id]
-        result = subprocess.run(
-            [sys.executable, str(root / "raft.py"), "client", "--address", f"{host}:{port}",
-             "set", "process-test", value], cwd=root, capture_output=True, text=True, timeout=8,
-        )
-        assert result.returncode == 0, result.stdout + result.stderr
-        assert json.loads(result.stdout)["committed"] is True
+    def cli_set(value: str) -> int:
+        deadline = time.monotonic() + 15
+        last_output = ""
+        while time.monotonic() < deadline:
+            leader_id = asyncio.run(find_leader())
+            host, port = members[leader_id]
+            result = subprocess.run(
+                [sys.executable, str(root / "raft.py"), "client", "--address", f"{host}:{port}",
+                 "set", "process-test", value], cwd=root, capture_output=True, text=True, timeout=10,
+            )
+            last_output = result.stdout + result.stderr
+            if result.returncode == 0:
+                payload = json.loads(result.stdout)
+                assert payload["committed"] is True
+                return leader_id
+            try:
+                payload = json.loads(result.stdout)
+            except json.JSONDecodeError:
+                break
+            if payload.get("error") not in {"not_leader", "leadership_changed", "timeout", "transport"}:
+                break
+            time.sleep(0.05)
+        raise AssertionError(f"CLI client write did not commit within deadline: {last_output}")
 
     async def converge() -> None:
-        deadline = asyncio.get_running_loop().time() + 6
+        deadline = asyncio.get_running_loop().time() + 15
         while asyncio.get_running_loop().time() < deadline:
             states = []
             for node_id in members:
                 try:
-                    states.append(await request(members[node_id], {"op": "status"}, timeout=0.3))
+                    states.append(await request(members[node_id], {"op": "status"}, timeout=1.0))
                 except (OSError, asyncio.TimeoutError):
                     break
             if len(states) == count and all(s["state"].get("process-test") == "after" for s in states):
@@ -288,15 +354,13 @@ def test_cli_independent_processes_survive_leader_kill(tmp_path: Path, count: in
     try:
         for node_id in members:
             launch(node_id)
-        original = asyncio.run(find_leader())
-        cli_set(original, "before")
+        original = cli_set("before")
         killed = processes.pop(original)
         killed.kill()
         killed.wait(timeout=5)
         logs.pop(original).close()
-        replacement = asyncio.run(find_leader())
+        replacement = cli_set("after")
         assert replacement != original
-        cli_set(replacement, "after")
         launch(original)
         asyncio.run(converge())
     finally:

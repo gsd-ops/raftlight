@@ -40,18 +40,30 @@ class Node:
 
     def __init__(self, node_id: int, peers: list[int], storage: Storage,
                  rng: random.Random, send: Callable[[int, Message], None],
-                 observe: Observer | None = None, now: float = 0) -> None:
+                 observe: Observer | None = None, now: float = 0,
+                 *,
+                 election_timeout: tuple[float, float] = ELECTION_TIMEOUT,
+                 heartbeat_interval: float = HEARTBEAT_INTERVAL) -> None:
         _integer(node_id, "node_id")
         for peer in peers:
             _integer(peer, "peer")
         if node_id in peers or len(set(peers)) != len(peers):
             raise ValueError("peers must be unique and exclude this node")
+        low, high = election_timeout
+        if (isinstance(low, bool) or isinstance(high, bool) or isinstance(heartbeat_interval, bool)
+                or not isinstance(low, (int, float)) or not isinstance(high, (int, float))
+                or not isinstance(heartbeat_interval, (int, float))
+                or not (0 < low <= high and math.isfinite(low) and math.isfinite(high))
+                or not (0 < heartbeat_interval and math.isfinite(heartbeat_interval))):
+            raise ValueError("election_timeout and heartbeat_interval must be positive finite seconds")
         self.node_id = node_id
         self.peers = tuple(peers)
         self.storage = storage
         self.rng = rng
         self.send = send
         self.observe = observe
+        self.election_timeout = (float(low), float(high))
+        self.heartbeat_interval = float(heartbeat_interval)
         state = storage.load()
         self.current_term = state.current_term
         self.voted_for = state.voted_for
@@ -105,7 +117,7 @@ class Node:
             raise StorageFailure("could not durably persist Raft state") from error
 
     def _reset_election_timer(self) -> None:
-        self.election_deadline = self._now + self.rng.uniform(*self.ELECTION_TIMEOUT)
+        self.election_deadline = self._now + self.rng.uniform(*self.election_timeout)
 
     def _become_follower(self, term: int, leader_id: int | None = None) -> None:
         if term < self.current_term:
@@ -290,7 +302,7 @@ class Node:
                                       request_id))
 
     def _broadcast_append(self) -> None:
-        self.heartbeat_deadline = self._now + self.HEARTBEAT_INTERVAL
+        self.heartbeat_deadline = self._now + self.heartbeat_interval
         for peer in self.peers:
             self._send_append(peer)
 

@@ -112,8 +112,10 @@ class Runtime:
         *,
         seed: int | None = None,
         tick_interval: float = 0.01,
-        rpc_timeout: float = 0.25,
+        rpc_timeout: float = 1.0,
         client_timeout: float = 3.0,
+        election_timeout: tuple[float, float] = Node.ELECTION_TIMEOUT,
+        heartbeat_interval: float = Node.HEARTBEAT_INTERVAL,
     ) -> None:
         if len(addresses) not in (3, 5) or node_id not in addresses:
             raise ValueError("runtime needs a 3- or 5-member cluster containing self")
@@ -126,8 +128,11 @@ class Runtime:
         self.tick_interval = tick_interval
         self.rpc_timeout = rpc_timeout
         self.client_timeout = client_timeout
+        self.election_timeout = election_timeout
+        self.heartbeat_interval = heartbeat_interval
         self.node: Node | None = None
         self.server: asyncio.Server | None = None
+        self._closing_listener: asyncio.Task[None] | None = None
         self._queues: dict[int, asyncio.Queue[bytes]] = {}
         self._tasks: set[asyncio.Task[Any]] = set()
         self._handlers: set[asyncio.Task[Any]] = set()
@@ -153,6 +158,8 @@ class Runtime:
             self.node = Node(
                 self.node_id, sorted(self._queues), FileStorage(self.data_path),
                 random.Random(self.seed), self._send, now=loop.time(),
+                election_timeout=self.election_timeout,
+                heartbeat_interval=self.heartbeat_interval,
             )
             host, port = self.addresses[self.node_id]
             self.server = await asyncio.start_server(self._accept, host, port, limit=MAX_FRAME)
@@ -169,6 +176,26 @@ class Runtime:
         self._tasks.add(task)
         task.add_done_callback(self._background_done)
 
+    async def _drain_and_close_listener(self) -> None:
+        if self.server is None or not self.server.is_serving():
+            return
+        loop = asyncio.get_running_loop()
+        accept_futures = getattr(loop, "_accept_futures", None)
+        if isinstance(accept_futures, dict):
+            # On Windows ProactorEventLoop, closing a server while a completed
+            # AcceptEx future sits in loop._ready triggers an stdlib AssertionError
+            # in Server._attach(). Yielding lets _accept() close the socket cleanly.
+            for _ in range(16):
+                sockets = self.server.sockets
+                if not sockets or not any(
+                    (fut := accept_futures.get(sock.fileno())) is not None and fut.done()
+                    for sock in sockets
+                ):
+                    break
+                await asyncio.sleep(0)
+        if self.server is not None:
+            self.server.close()
+
     def _background_done(self, task: asyncio.Task[Any]) -> None:
         self._tasks.discard(task)
         if not task.cancelled() and (error := task.exception()) is not None and self.failure is None:
@@ -178,7 +205,16 @@ class Runtime:
             # Storage/protocol bugs must stop this node before it can send another
             # vote or replication acknowledgement based on uncertain state.
             if self.server is not None:
-                self.server.close()
+                loop = asyncio.get_running_loop()
+                accept_futures = getattr(loop, "_accept_futures", None)
+                has_ready_accept = isinstance(accept_futures, dict) and any(
+                    (fut := accept_futures.get(sock.fileno())) is not None and fut.done()
+                    for sock in self.server.sockets
+                )
+                if has_ready_accept:
+                    self._closing_listener = asyncio.create_task(self._drain_and_close_listener())
+                else:
+                    self.server.close()
             for active in self._tasks | self._handlers:
                 active.cancel()
             for writer in self._writers:
@@ -187,18 +223,16 @@ class Runtime:
     async def wait_failure(self) -> None:
         """Wait for, then propagate, an unexpected background/runtime failure."""
         await self._failed.wait()
+        if self._closing_listener is not None:
+            await self._closing_listener
         assert self.failure is not None
         raise self.failure
 
     async def stop(self) -> None:
-        """Close the listener, cancel timers/connections, and resolve waiters."""
+        """Cancel timers/connections, resolve waiters, and close the listener."""
         if self._closed:
             return
         self._closed = True
-        if self.server is not None:
-            self.server.close()
-            await self.server.wait_closed()
-            self.server = None
         for pending in self._pending.values():
             if not pending.future.done():
                 pending.future.set_result({"ok": False, "error": "shutdown", "outcome": "unknown"})
@@ -210,6 +244,13 @@ class Runtime:
             writer.close()
         if tasks:
             await asyncio.gather(*tasks, return_exceptions=True)
+        if self._closing_listener is not None:
+            await self._closing_listener
+            self._closing_listener = None
+        if self.server is not None:
+            await self._drain_and_close_listener()
+            await self.server.wait_closed()
+            self.server = None
         self._tasks.clear()
         self._handlers.clear()
         self._writers.clear()
