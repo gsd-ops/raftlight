@@ -110,4 +110,6 @@ Algorithm reference: Ongaro and Ousterhout, [In Search of an Understandable Cons
 
 ## Authorship and AI Disclosure
 
-Engineered, tested, and verified by @gsd-ops, including system architecture, fault-injection scenarios, and protocol verification. AI coding assistants were used to accelerate code scaffolding, test-harness boilerplate, and LaTeX typesetting; all consensus state-machine logic, debugging, chaos simulations, and benchmarks were executed and validated locally.
+I implemented state_machine.py, messages.py and __init__.py myself. I also wrote storage.py, with AI assistance limited to improving comments and readability without changing functionality.
+
+The node.py, transport.py, simulator.py and sensitivity.py modules were developed through a combination of my own coding and AI-assisted implementation and debugging. I set the project requirements and evaluation goals, debugged failures, and ran and checked the tests, simulations and benchmarks.
