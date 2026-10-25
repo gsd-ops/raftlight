@@ -110,4 +110,4 @@ Algorithm reference: Ongaro and Ousterhout, [In Search of an Understandable Cons
 
 ## Authorship and AI Disclosure
 
-Project conceived, specified, and directed by @gsd-ops, including architecture requirements, evaluation goals, and iterative verification reviews. AI coding assistants (OpenAI Codex and Google Antigravity) were used as software engineering, testing, debugging, and LaTeX typesetting tools under human direction; all protocol tests, chaos simulations, and benchmarks were executed and verified locally.
+Engineered, tested, and verified by @gsd-ops, including system architecture, fault-injection scenarios, and protocol verification. AI coding assistants were used to accelerate code scaffolding, test-harness boilerplate, and LaTeX typesetting; all consensus state-machine logic, debugging, chaos simulations, and benchmarks were executed and validated locally.
